@@ -1,3 +1,3 @@
 # infrastructure
 
-Adapters des ports (caméra, détection, OCR, catalogue, stockage, export). Vide pour l'instant.
+Adapters des ports. Présent : caméra (`web-camera.adapter.ts`). À venir : détection, OCR, catalogue, stockage, export.

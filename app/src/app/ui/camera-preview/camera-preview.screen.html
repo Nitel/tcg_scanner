@@ -1,0 +1,19 @@
+<div class="actions">
+  <button type="button" (click)="start()" [disabled]="isActive()">Démarrer la caméra</button>
+  <button type="button" (click)="stop()" [disabled]="!isActive()">Arrêter</button>
+</div>
+
+@if (state().status === 'starting') {
+  <p role="status">Démarrage…</p>
+}
+@if (failureMessage(); as message) {
+  <p role="alert">{{ message }}</p>
+}
+@if (stats(); as stats) {
+  <p class="stats">
+    Résolution : {{ stats.width }} × {{ stats.height }} · Images lues :
+    {{ stats.framesPerSecond ?? '…' }} /s
+  </p>
+}
+
+<div #previewHost></div>
