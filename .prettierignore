@@ -1,0 +1,7 @@
+node_modules
+dist
+.angular
+coverage
+app/android
+package-lock.json
+*.md
