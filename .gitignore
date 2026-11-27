@@ -1,0 +1,21 @@
+# dépendances et builds
+node_modules/
+dist/
+.angular/
+coverage/
+
+# données issues du site officiel : jamais versionnées (ADR 004)
+catalog.*.json
+tools/catalog/cache/
+
+# images de cartes du banc d'essai
+eval/**/*.jpg
+eval/**/*.jpeg
+eval/**/*.png
+eval/**/*.webp
+eval/**/*.heic
+eval/**/*.mp4
+
+# poste local
+.DS_Store
+*.log
