@@ -1,10 +1,11 @@
-/**
- * One image from the camera.
- * TODO(à vérifier): pixel transport between native code and the WebView is not decided,
- * so the frame carries no image data yet.
- */
+/** One image from the camera (ADR 012). */
 export interface CameraFrame {
+  /** Milliseconds on a monotonic clock. */
   readonly capturedAt: number;
+  readonly width: number;
+  readonly height: number;
+  /** RGBA, 4 bytes per pixel, row by row. */
+  readonly pixels: Uint8ClampedArray;
 }
 
 /** Area of a frame, in pixels. */
