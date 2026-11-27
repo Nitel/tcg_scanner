@@ -22,10 +22,10 @@ Profil du développeur : Java/Angular, DevOps/full-stack.
 - Hors périmètre : comptes, prix, sync cloud, iOS, reconnaissance visuelle, variantes/alt arts, publication sur les stores.
 
 ## Stack
-Angular 22 + Capacitor 8, TypeScript 6.0 strict, Node 24, npm workspaces. Moteur OCR et détection de carte **non tranchés** (ADR 008, 011) : toujours passer par `OcrPort` et `CardDetectorPort`.
+Angular 22 + Capacitor 8, TypeScript 6.0 strict, Node 26, npm workspaces. Moteur OCR et détection de carte **non tranchés** (ADR 008, 011) : toujours passer par `OcrPort` et `CardDetectorPort`.
 
 ## Structure
-- `app/` : application Angular + Capacitor (squelette à générer, voir `docs/STATUS.md`)
+- `app/` : application Angular + Capacitor (projet natif dans `app/android/`)
   - `src/app/domain/` : TypeScript pur, aucune dépendance Angular/Capacitor
   - `src/app/application/` : cas d'usage ; `ports/` contient les interfaces
   - `src/app/infrastructure/` : adapters (caméra, détection de carte, OCR, catalogue, stockage, export)
@@ -35,7 +35,7 @@ Angular 22 + Capacitor 8, TypeScript 6.0 strict, Node 24, npm workspaces. Moteur
 - `docs/` : `adr/`, `STATUS.md`, `DEPENDENCIES.md`
 
 ## Commandes
-Cibles à créer avec le squelette, depuis la racine :
+Depuis la racine (`nvm use` d'abord) :
 
 | Commande | Effet |
 |---|---|

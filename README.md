@@ -2,11 +2,11 @@
 
 App qui scanne du bulk de cartes One Piece TCG (set OP18) : lecture du numéro imprimé par OCR, identification hors ligne, export CSV/JSON trié.
 
-> État : documentation en place, application pas encore générée. Voir [docs/STATUS.md](docs/STATUS.md). Les commandes `npm` ci-dessous fonctionneront une fois le squelette créé.
+> État : squelette en place, caméra et OCR pas encore implémentés. Voir [docs/STATUS.md](docs/STATUS.md).
 
 ## Prérequis
 - git (macOS : `xcode-select --install`)
-- Node 24 LTS (npm inclus)
+- Node 26 (voir `.nvmrc`, npm inclus). Avec nvm : `nvm install`
 - Android Studio 2025.2.1 ou plus récent, avec le SDK Android (API 36). Il fournit le JDK et `adb`.
 - Un téléphone Android 7.0 (API 24) ou plus récent et un câble USB de données
 
@@ -22,6 +22,7 @@ npm ci
 npm start      # serveur web
 npm test       # tests unitaires
 npm run lint
+npm run format
 npm run build
 ```
 
