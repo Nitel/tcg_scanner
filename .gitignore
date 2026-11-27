@@ -19,3 +19,6 @@ eval/**/*.mp4
 # poste local
 .DS_Store
 *.log
+
+# fichiers locaux d'Android Studio
+app/android/.idea/
