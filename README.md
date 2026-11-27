@@ -2,7 +2,7 @@
 
 App qui scanne du bulk de cartes One Piece TCG (set OP18) : lecture du numéro imprimé par OCR, identification hors ligne, export CSV/JSON trié.
 
-> État : squelette en place, caméra et OCR pas encore implémentés. Voir [docs/STATUS.md](docs/STATUS.md).
+> État : aperçu caméra en place, détection de carte et OCR pas encore implémentés. Voir [docs/STATUS.md](docs/STATUS.md).
 
 ## Prérequis
 - git (macOS : `xcode-select --install`)
