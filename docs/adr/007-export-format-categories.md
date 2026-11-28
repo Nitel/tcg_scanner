@@ -1,6 +1,6 @@
 # ADR 007 : format d'export et catégories de sortie
 
-- Statut : Accepté
+- Statut : Accepté (amendé par ADR 015)
 - Date : 2026-11-27
 
 ## Contexte

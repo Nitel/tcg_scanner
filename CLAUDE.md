@@ -17,7 +17,7 @@ Profil du développeur : Java/Angular, DevOps/full-stack.
 ## Périmètre v0
 - Set OP18 uniquement. Cartes EN et FR, même numéro dans les deux langues.
 - Android d'abord ; ne rien faire qui empêche iOS plus tard.
-- Catégories de sortie : `op18`, `foil`, `unreadable`, `other_set`.
+- Catégories de sortie : `op18`, `alternative`, `unreadable`, `other_set`.
 - Hors ligne, sans backend, coût zéro.
 - Hors périmètre : comptes, prix, sync cloud, iOS, reconnaissance visuelle, variantes/alt arts, publication sur les stores.
 
@@ -25,7 +25,7 @@ Profil du développeur : Java/Angular, DevOps/full-stack.
 - **foil** : carte brillante.
 - **étoile** : version alternative (alt art), marquée d'une étoile au-dessus du numéro.
 
-Les ADR 005 et 007 emploient encore « foil » pour les cartes à étoile : à revoir par un nouvel ADR.
+Les cartes brillantes ne sont pas identifiées ; la catégorie d'export des cartes à étoile est `alternative` (ADR 015).
 
 ## Stack
 Angular 22 + Capacitor 8, TypeScript 6.0 strict, Node 26, npm workspaces. Moteur OCR et détection de carte **non tranchés** (ADR 008, 011) : toujours passer par `OcrPort` et `CardDetectorPort`.
