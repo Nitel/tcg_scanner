@@ -8,7 +8,8 @@ coverage/
 catalog.*.json
 tools/catalog/cache/
 
-# images de cartes du banc d'essai
+# images de cartes du banc d'essai (et listes de numéros associées)
+eval/captures/
 eval/**/*.jpg
 eval/**/*.jpeg
 eval/**/*.png

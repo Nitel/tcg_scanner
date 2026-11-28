@@ -21,6 +21,12 @@ Profil du développeur : Java/Angular, DevOps/full-stack.
 - Hors ligne, sans backend, coût zéro.
 - Hors périmètre : comptes, prix, sync cloud, iOS, reconnaissance visuelle, variantes/alt arts, publication sur les stores.
 
+## Vocabulaire
+- **foil** : carte brillante.
+- **étoile** : version alternative (alt art), marquée d'une étoile au-dessus du numéro.
+
+Les ADR 005 et 007 emploient encore « foil » pour les cartes à étoile : à revoir par un nouvel ADR.
+
 ## Stack
 Angular 22 + Capacitor 8, TypeScript 6.0 strict, Node 26, npm workspaces. Moteur OCR et détection de carte **non tranchés** (ADR 008, 011) : toujours passer par `OcrPort` et `CardDetectorPort`.
 

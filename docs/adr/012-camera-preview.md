@@ -1,6 +1,6 @@
 # ADR 012 : accès caméra par l'API web
 
-- Statut : Accepté
+- Statut : Accepté (amendé par ADR 014)
 - Date : 2026-11-27
 
 ## Contexte

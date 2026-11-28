@@ -3,6 +3,7 @@ import { CameraError, type CameraPort } from '../../application/ports/camera.por
 import type { CardDetectorPort } from '../../application/ports/card-detector.port';
 import { CAMERA_PORT } from '../camera.token';
 import { CARD_DETECTOR_PORT } from '../card-detector.token';
+import { PHOTO_STORE_PORT } from '../photo-store.token';
 import { CameraPreviewScreen } from './camera-preview.screen';
 
 describe('CameraPreviewScreen', () => {
@@ -10,6 +11,7 @@ describe('CameraPreviewScreen', () => {
     const camera: CameraPort = {
       start: () => Promise.reject(new CameraError('permission-denied')),
       stop: () => Promise.resolve(),
+      snapshot: () => undefined,
     };
     const detector: CardDetectorPort = {
       zoneFor: () => ({ x: 0, y: 0, width: 1, height: 1 }),
@@ -20,6 +22,7 @@ describe('CameraPreviewScreen', () => {
       providers: [
         { provide: CAMERA_PORT, useValue: camera },
         { provide: CARD_DETECTOR_PORT, useValue: detector },
+        { provide: PHOTO_STORE_PORT, useValue: { save: () => Promise.resolve() } },
       ],
     });
     const fixture = TestBed.createComponent(CameraPreviewScreen);

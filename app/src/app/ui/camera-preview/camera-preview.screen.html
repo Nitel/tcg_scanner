@@ -10,6 +10,25 @@
   </button>
 </div>
 
+<label class="capture">
+  <input type="checkbox" [checked]="captureState().enabled" (change)="toggleCapture($event)" />
+  Photographier chaque carte (jeu d’essai)
+</label>
+@if (captureState(); as capture) {
+  @if (capture.enabled) {
+    <p role="status">
+      Photos : {{ capture.saved }}
+      @if (capture.lastSize; as size) {
+        ({{ size.width }} × {{ size.height }})
+      }
+      · dossier {{ capture.session }}
+    </p>
+    @if (capture.failed) {
+      <p role="alert">La photo n’a pas pu être enregistrée.</p>
+    }
+  }
+}
+
 @if (state().status === 'starting') {
   <p role="status">Démarrage…</p>
 }
@@ -21,6 +40,10 @@
   <p class="status" role="status">
     @if (scan.calibration !== 'done') {
       Videz le cadre puis touchez « Calibrer le fond ».
+    } @else if (scan.cardPresent && captureState().done) {
+      Photo prise : retirez la carte
+    } @else if (scan.cardPresent && captureState().enabled) {
+      Ne bougez pas, photo en cours…
     } @else if (scan.cardPresent) {
       Carte détectée
     } @else if (scan.cardIncomplete) {
@@ -33,7 +56,7 @@
 }
 @if (stats(); as stats) {
   <p class="diagnostics">
-    {{ stats.width }} × {{ stats.height }} · {{ stats.framesPerSecond ?? '…' }} images/s
+    analyse {{ stats.width }} × {{ stats.height }} · {{ stats.framesPerSecond ?? '…' }} images/s
     @if (scanState().observation; as observation) {
       · occupation {{ (observation.occupancy * 100).toFixed(0) }} % · bloc le plus faible
       {{ (observation.coverage * 100).toFixed(0) }} % · mouvement

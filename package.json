@@ -18,7 +18,8 @@
     "format:check": "prettier --check .",
     "android:sync": "npm run android:sync -w app",
     "android:open": "npm run android:open -w app",
-    "android:run": "npm run android:run -w app"
+    "android:run": "npm run android:run -w app",
+    "eval:pull": "mkdir -p eval/captures && adb pull /sdcard/Android/data/io.github.nitel.tcgscanner/files/eval/. eval/captures"
   },
   "devDependencies": {
     "prettier": "^3.10.1"
