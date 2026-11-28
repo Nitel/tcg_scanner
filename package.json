@@ -19,6 +19,8 @@
     "android:sync": "npm run android:sync -w app",
     "android:open": "npm run android:open -w app",
     "android:run": "npm run android:run -w app",
+    "eval:assets": "node tools/benchmark/copy-ocr-assets.mjs",
+    "eval:score": "node tools/benchmark/score.ts",
     "eval:pull": "mkdir -p eval/captures && adb pull /sdcard/Android/data/io.github.nitel.tcgscanner/files/eval/. eval/captures"
   },
   "devDependencies": {

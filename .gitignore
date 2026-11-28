@@ -17,6 +17,9 @@ eval/**/*.webp
 eval/**/*.heic
 eval/**/*.mp4
 
+# fichiers OCR copiés depuis node_modules pour le banc d'essai
+app/public/ocr/
+
 # poste local
 .DS_Store
 *.log
