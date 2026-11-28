@@ -1,6 +1,6 @@
 # ADR 005 : périmètre v0
 
-- Statut : Accepté
+- Statut : Accepté (amendé par ADR 015)
 - Date : 2026-11-27
 
 ## Contexte

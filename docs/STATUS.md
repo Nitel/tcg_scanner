@@ -8,21 +8,17 @@ Dernière mise à jour : 2026-11-28
 - Vérifié en local : format, lint, 63 tests (images fabriquées), build.
 
 ## En cours
-Lecture du numéro, en trois PR : jeu d'essai, banc d'essai, intégration. Détection fusionnée (PR #3), validée sur bois blanc uniquement.
-
-PR 1, `feat/eval-capture` (72 tests) : à pousser et relire.
-- Photos en 2160 × 3840, numéro net ; jeu de 32 cartes et `truth.txt` dans `eval/captures/` (local).
-- Détection lente corrigée (29 images/s mesurées), jugée « beaucoup mieux » à l'usage.
-- Pas de recomptage formel des passages depuis la correction.
+- PR `feat/alternative-category` (ADR 015) : à pousser et relire.
+- Fusionnées : détection (PR #3, validée sur bois blanc uniquement), jeu d'essai OCR (PR #4).
+- Jeu d'essai local : 32 photos 2160 × 3840 et `truth.txt` dans `eval/captures/`.
 
 ## Bloqué
 Rien.
 
 ## Prochaine étape
-1. Petite PR : la catégorie d'export `foil` devient `alternative` (cartes à étoile), avec un ADR qui amende les 005 et 007. Les cartes brillantes ne sont pas identifiées.
-2. Banc d'essai OCR (ADR 008), puis intégration de la lecture du numéro.
-3. Mode pile : les cartes sont empilées sous la caméra, on retire celle du dessus pour lire la suivante. La zone ne se vide qu'à la fin. Piste : nouvelle carte au changement de numéro ; pour deux cartes identiques à la suite, repérer le mouvement du retrait (immobile, mouvement, immobile). Demandera un ADR qui revoit l'ADR 006.
-4. Comptage et anti-doublon, catalogue, tri et export.
+1. Banc d'essai OCR (ADR 008), puis intégration de la lecture du numéro.
+2. Mode pile : les cartes sont empilées sous la caméra, on retire celle du dessus pour lire la suivante. La zone ne se vide qu'à la fin. Piste : nouvelle carte au changement de numéro ; pour deux cartes identiques à la suite, repérer le mouvement du retrait (immobile, mouvement, immobile). Demandera un ADR qui revoit l'ADR 006.
+3. Comptage et anti-doublon, catalogue, tri et export.
 
 ## À vérifier
 - Autres fonds et reflets.
