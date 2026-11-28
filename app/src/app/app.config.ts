@@ -2,12 +2,15 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { WebCameraAdapter } from './infrastructure/web-camera.adapter';
+import { ZoneCardDetectorAdapter } from './infrastructure/zone-card-detector.adapter';
 import { CAMERA_PORT } from './ui/camera.token';
+import { CARD_DETECTOR_PORT } from './ui/card-detector.token';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     { provide: CAMERA_PORT, useClass: WebCameraAdapter },
+    { provide: CARD_DETECTOR_PORT, useClass: ZoneCardDetectorAdapter },
   ],
 };

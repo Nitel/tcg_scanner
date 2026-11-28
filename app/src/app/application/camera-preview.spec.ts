@@ -77,6 +77,21 @@ describe('CameraPreview', () => {
     expect(states.at(-1)?.status).toBe('running');
   });
 
+  it('forwards frames while running only', async () => {
+    const received: number[] = [];
+    preview = new CameraPreview(
+      camera,
+      () => undefined,
+      (frame) => received.push(frame.capturedAt),
+    );
+    await preview.start(host);
+    camera.emit(1);
+    await preview.stop();
+    camera.emit(2);
+
+    expect(received).toEqual([1]);
+  });
+
   it('ignores a second start while active', async () => {
     await preview.start(host);
     await preview.start(host);

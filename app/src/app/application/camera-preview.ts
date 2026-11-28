@@ -30,6 +30,7 @@ export class CameraPreview {
   constructor(
     private readonly camera: CameraPort,
     private readonly onState: (state: PreviewState) => void,
+    private readonly onFrame: (frame: CameraFrame) => void = () => undefined,
   ) {}
 
   async start(host: HTMLElement): Promise<void> {
@@ -82,6 +83,7 @@ export class CameraPreview {
 
   private handleFrame(run: number, frame: CameraFrame): void {
     if (run !== this.run) return;
+    this.onFrame(frame);
     const isFirst = this.windowStart === undefined;
     this.windowStart ??= frame.capturedAt;
     const elapsed = frame.capturedAt - this.windowStart;
