@@ -1,7 +1,7 @@
 import type { CardNumber } from './card-number';
 
-/** Output categories, in export order (ADR 007). */
-export type OutputCategory = 'op18' | 'foil' | 'unreadable' | 'other_set';
+/** Output categories, in export order (ADR 007, ADR 015). */
+export type OutputCategory = 'op18' | 'alternative' | 'unreadable' | 'other_set';
 
 export interface ScanEntry {
   readonly category: OutputCategory;
