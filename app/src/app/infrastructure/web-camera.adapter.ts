@@ -1,4 +1,4 @@
-import type { CameraFrame } from '../application/ports/camera-frame';
+import type { CameraFrame, CardRectangle } from '../application/ports/camera-frame';
 import { CameraError, type CameraPort } from '../application/ports/camera.port';
 
 /** Width of the frames delivered for analysis (ADR 014). */
@@ -108,6 +108,27 @@ export class WebCameraAdapter implements CameraPort {
     const canvas = document.createElement('canvas');
     const frame = grab(video, canvas, video.videoWidth, video.videoHeight);
     canvas.width = 0; // Frees the full resolution buffer without waiting for garbage collection.
+    return frame;
+  }
+
+  async captureArea(
+    areaFor: (width: number, height: number) => CardRectangle,
+    scale: number,
+  ): Promise<CameraFrame | undefined> {
+    const video = this.video;
+    if (!video?.videoWidth || !video.videoHeight) return undefined;
+    const session = this.session;
+    const area = areaFor(video.videoWidth, video.videoHeight);
+    const width = Math.round(area.width * scale);
+    const height = Math.round(area.height * scale);
+    const bitmap = await createImageBitmap(video, area.x, area.y, area.width, area.height, {
+      resizeWidth: width,
+      resizeHeight: height,
+      resizeQuality: 'low',
+    });
+    const canvas = document.createElement('canvas');
+    const frame = session === this.session ? grab(bitmap, canvas, width, height) : undefined;
+    bitmap.close();
     return frame;
   }
 

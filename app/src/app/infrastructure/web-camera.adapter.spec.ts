@@ -30,8 +30,12 @@ describe('WebCameraAdapter', () => {
     await expect(new WebCameraAdapter().start(host, ignore)).rejects.toMatchObject({ reason });
   });
 
-  it('has no snapshot while stopped', () => {
-    expect(new WebCameraAdapter().snapshot()).toBeUndefined();
+  it('has no image to give while stopped', async () => {
+    const adapter = new WebCameraAdapter();
+    const area = () => ({ x: 0, y: 0, width: 1, height: 1 });
+
+    expect(adapter.snapshot()).toBeUndefined();
+    await expect(adapter.captureArea(area, 1)).resolves.toBeUndefined();
   });
 
   it('releases a stream obtained after stop', async () => {

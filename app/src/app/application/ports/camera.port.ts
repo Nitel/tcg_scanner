@@ -1,4 +1,4 @@
-import type { CameraFrame } from './camera-frame';
+import type { CameraFrame, CardRectangle } from './camera-frame';
 
 export type CameraFailure = 'permission-denied' | 'unavailable' | 'unknown';
 
@@ -19,4 +19,12 @@ export interface CameraPort {
   stop(): Promise<void>;
   /** Current image at full resolution, or `undefined` when the camera is not running. */
   snapshot(): CameraFrame | undefined;
+  /**
+   * Copies only an area of the current image, resized by `scale`: much cheaper than `snapshot`.
+   * `areaFor` receives the full resolution size. `undefined` when the camera is not running.
+   */
+  captureArea(
+    areaFor: (width: number, height: number) => CardRectangle,
+    scale: number,
+  ): Promise<CameraFrame | undefined>;
 }

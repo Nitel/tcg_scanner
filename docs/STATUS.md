@@ -8,14 +8,18 @@ Dernière mise à jour : 2026-11-28
 - Vérifié en local : format, lint, 63 tests (images fabriquées), build.
 
 ## En cours
-- PR `feat/ocr-benchmark` : recherche du numéro dans `domain`, ADR 008 tranché (ML Kit, 31 / 31 sur les photos exploitables, aucune fausse lecture). À pousser et relire.
-- Jeu d'essai local : `eval/captures/` (32 photos, `truth.txt`, `results.json`).
+PR 1 de l'intégration, `feat/ocr-reading` (ADR 016, 83 tests) : à pousser et relire.
+- Plugin ML Kit maison, app sans autorisation Internet.
+- 30 / 32 photos relues en JPEG, aucune fausse lecture.
+- En direct sur téléphone : numéros bien lus, rapide et fluide, cartes brillantes comprises ; un dos reste en « Lecture… ».
+
+Anomalie ouverte : une fois, une sortie détectée après environ 15 secondes. Pas reproduite sur un peu moins de 40 cartes ; cause inconnue. Si elle revient, relever la valeur « occupation » (au-dessus de 25 % : cadre non vu comme vide ; près de 0 % : erreur de logique).
 
 ## Bloqué
 Rien.
 
 ## Prochaine étape
-1. Intégration de la lecture du numéro avec ML Kit : choisir plugin existant ou maison ; lire seulement sur image stable.
+1. PR 2, `feat/card-counting` : comptage (ADR 006), `unreadable`, liste à l'écran ; deux lectures identiques pour changer de numéro pendant un même passage.
 2. Mode pile : les cartes sont empilées sous la caméra, on retire celle du dessus pour lire la suivante. La zone ne se vide qu'à la fin. Piste : nouvelle carte au changement de numéro ; pour deux cartes identiques à la suite, repérer le mouvement du retrait (immobile, mouvement, immobile). Demandera un ADR qui revoit l'ADR 006.
 3. Comptage et anti-doublon, catalogue, tri et export.
 

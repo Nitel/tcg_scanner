@@ -52,6 +52,14 @@
       Cadre vide
     }
   </p>
+  @if (readingState(); as reading) {
+    <p class="number" aria-live="assertive">
+      {{ reading.cardNumber ?? (scan.cardPresent ? 'Lecture…' : '—') }}
+    </p>
+    @if (reading.failed) {
+      <p role="alert">La lecture de texte ne fonctionne pas sur cet appareil.</p>
+    }
+  }
   <p>Entrées : {{ scan.entries }} · Sorties : {{ scan.exits }}</p>
 }
 @if (stats(); as stats) {
@@ -61,6 +69,9 @@
       · occupation {{ (observation.occupancy * 100).toFixed(0) }} % · bloc le plus faible
       {{ (observation.coverage * 100).toFixed(0) }} % · mouvement
       {{ observation.motion.toFixed(1) }}
+    }
+    @if (readingState().lastAttemptMs; as milliseconds) {
+      · lecture {{ milliseconds }} ms, essai {{ readingState().attempts }}
     }
   </p>
 }
