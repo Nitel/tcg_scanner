@@ -1,6 +1,6 @@
 # ADR 011 : détection de la carte à l'écran
 
-- Statut : Accepté (technique à choisir par essais)
+- Statut : Accepté (première technique : ADR 013)
 - Date : 2026-11-27
 
 ## Contexte
