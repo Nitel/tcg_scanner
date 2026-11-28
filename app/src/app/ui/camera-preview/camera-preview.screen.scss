@@ -17,6 +17,13 @@ p {
   margin: 0.5rem 0;
 }
 
+.capture {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+}
+
 .status {
   font-size: 1.25rem;
   font-weight: bold;

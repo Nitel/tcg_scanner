@@ -18,6 +18,10 @@ class FakeCamera implements CameraPort {
     this.stops++;
   }
 
+  snapshot(): CameraFrame | undefined {
+    return undefined;
+  }
+
   emit(capturedAt: number): void {
     this.onFrame?.({ capturedAt, width: 4, height: 2, pixels: new Uint8ClampedArray(32) });
   }

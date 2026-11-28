@@ -1,13 +1,16 @@
 import type { CameraFrame } from '../application/ports/camera-frame';
 import { CameraError, type CameraPort } from '../application/ports/camera.port';
 
-/** Rear camera at the highest common video resolution, if the device offers it. */
+/** Width of the frames delivered for analysis (ADR 014). */
+const ANALYSIS_WIDTH = 540;
+
+/** Rear camera in 4K if the device offers it, else its closest resolution. */
 const CONSTRAINTS: MediaStreamConstraints = {
   audio: false,
   video: {
     facingMode: { ideal: 'environment' },
-    width: { ideal: 1920 },
-    height: { ideal: 1080 },
+    width: { ideal: 3840 },
+    height: { ideal: 2160 },
   },
 };
 
@@ -27,6 +30,23 @@ function toCameraError(error: unknown): CameraError {
 
 function release(stream: MediaStream): void {
   for (const track of stream.getTracks()) track.stop();
+}
+
+/** Draws an image at the given size and reads its pixels. */
+function grab(
+  source: CanvasImageSource,
+  canvas: HTMLCanvasElement,
+  width: number,
+  height: number,
+): CameraFrame | undefined {
+  // Resizing a canvas reallocates it: only do it when the size changes.
+  if (canvas.width !== width) canvas.width = width;
+  if (canvas.height !== height) canvas.height = height;
+  const context = canvas.getContext('2d', { willReadFrequently: true });
+  if (!context) return undefined;
+  context.drawImage(source, 0, 0, width, height);
+  const { data } = context.getImageData(0, 0, width, height);
+  return { capturedAt: performance.now(), width, height, pixels: data };
 }
 
 /** `CameraPort` on top of the web camera API (ADR 012). */
@@ -82,26 +102,42 @@ export class WebCameraAdapter implements CameraPort {
     this.video = undefined;
   }
 
+  snapshot(): CameraFrame | undefined {
+    const video = this.video;
+    if (!video?.videoWidth || !video.videoHeight) return undefined;
+    const canvas = document.createElement('canvas');
+    const frame = grab(video, canvas, video.videoWidth, video.videoHeight);
+    canvas.width = 0; // Frees the full resolution buffer without waiting for garbage collection.
+    return frame;
+  }
+
   private readFrames(
     video: HTMLVideoElement,
     session: number,
     onFrame: (frame: CameraFrame) => void,
   ): void {
     const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d', { willReadFrequently: true });
-    if (!context) return;
-
+    let busy = false;
     const read = (): void => {
       if (session !== this.session) return;
       video.requestVideoFrameCallback(read);
-      const { videoWidth: width, videoHeight: height } = video;
-      if (!width || !height) return;
-      // Resizing a canvas reallocates it: only do it when the stream size changes.
-      if (canvas.width !== width) canvas.width = width;
-      if (canvas.height !== height) canvas.height = height;
-      context.drawImage(video, 0, 0);
-      const { data } = context.getImageData(0, 0, width, height);
-      onFrame({ capturedAt: performance.now(), width, height, pixels: data });
+      const { videoWidth, videoHeight } = video;
+      if (busy || !videoWidth || !videoHeight) return;
+      const width = Math.min(ANALYSIS_WIDTH, videoWidth);
+      const height = Math.round((videoHeight * width) / videoWidth);
+      busy = true;
+      // Resizing here is much cheaper than drawing the full video frame into a small canvas.
+      void createImageBitmap(video, {
+        resizeWidth: width,
+        resizeHeight: height,
+        resizeQuality: 'low',
+      })
+        .then((bitmap) => {
+          const frame = session === this.session && grab(bitmap, canvas, width, height);
+          bitmap.close();
+          if (frame) onFrame(frame);
+        })
+        .finally(() => (busy = false));
     };
     video.requestVideoFrameCallback(read);
   }

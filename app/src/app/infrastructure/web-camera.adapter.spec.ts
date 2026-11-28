@@ -30,6 +30,10 @@ describe('WebCameraAdapter', () => {
     await expect(new WebCameraAdapter().start(host, ignore)).rejects.toMatchObject({ reason });
   });
 
+  it('has no snapshot while stopped', () => {
+    expect(new WebCameraAdapter().snapshot()).toBeUndefined();
+  });
+
   it('releases a stream obtained after stop', async () => {
     const track = { stop: vi.fn() };
     let grant: (stream: unknown) => void = ignore;

@@ -9,9 +9,15 @@ import {
 } from '@angular/core';
 import { CameraPreview, type PreviewState } from '../../application/camera-preview';
 import { CardScan, INITIAL_SCAN_STATE, type ScanState } from '../../application/card-scan';
+import {
+  EvalCapture,
+  INITIAL_CAPTURE_STATE,
+  type EvalCaptureState,
+} from '../../application/eval-capture';
 import type { CameraFailure } from '../../application/ports/camera.port';
 import { CAMERA_PORT } from '../camera.token';
 import { CARD_DETECTOR_PORT } from '../card-detector.token';
+import { PHOTO_STORE_PORT } from '../photo-store.token';
 
 const FAILURE_MESSAGES: Record<CameraFailure, string> = {
   'permission-denied':
@@ -29,11 +35,22 @@ const FAILURE_MESSAGES: Record<CameraFailure, string> = {
 export class CameraPreviewScreen implements OnDestroy {
   private readonly previewHost = viewChild.required<ElementRef<HTMLElement>>('previewHost');
   protected readonly state = signal<PreviewState>({ status: 'stopped' });
+  private readonly camera = inject(CAMERA_PORT);
   private readonly detector = inject(CARD_DETECTOR_PORT);
+  protected readonly captureState = signal<EvalCaptureState>(INITIAL_CAPTURE_STATE);
+  private readonly capture = new EvalCapture(
+    this.camera,
+    this.detector,
+    inject(PHOTO_STORE_PORT),
+    (state) => this.captureState.set(state),
+  );
   protected readonly scanState = signal<ScanState>(INITIAL_SCAN_STATE);
-  private readonly scan = new CardScan(this.detector, (state) => this.scanState.set(state));
+  private readonly scan = new CardScan(this.detector, (state) => {
+    this.scanState.set(state);
+    void this.capture.handleScan(state);
+  });
   private readonly preview = new CameraPreview(
-    inject(CAMERA_PORT),
+    this.camera,
     (state) => {
       this.state.set(state);
       if (state.status !== 'running') this.scan.interrupt();
@@ -67,6 +84,10 @@ export class CameraPreviewScreen implements OnDestroy {
       height: percent(zone.height, stats.height),
     };
   });
+
+  protected toggleCapture(event: Event): void {
+    this.capture.setEnabled((event.target as HTMLInputElement).checked);
+  }
 
   protected calibrate(): void {
     this.scan.calibrate();
