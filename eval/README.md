@@ -15,3 +15,6 @@ OP18-002 foil
 ```
 
 Désinstaller l'app efface les photos restées sur le téléphone.
+
+## Résultats
+Voir l'[ADR 008](../docs/adr/008-ocr-engine.md).
