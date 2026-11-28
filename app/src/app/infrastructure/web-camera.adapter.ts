@@ -55,7 +55,7 @@ export class WebCameraAdapter implements CameraPort {
     const video = document.createElement('video');
     video.muted = true;
     video.playsInline = true;
-    video.style.cssText = 'display:block;width:100%;max-height:70vh;object-fit:contain';
+    video.style.cssText = 'display:block;max-width:100%;max-height:60vh';
     video.srcObject = stream;
     previewHost.replaceChildren(video);
     this.stream = stream;

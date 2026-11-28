@@ -1,6 +1,13 @@
 <div class="actions">
   <button type="button" (click)="start()" [disabled]="isActive()">Démarrer la caméra</button>
   <button type="button" (click)="stop()" [disabled]="!isActive()">Arrêter</button>
+  <button
+    type="button"
+    (click)="calibrate()"
+    [disabled]="state().status !== 'running' || scanState().calibration === 'pending'"
+  >
+    Calibrer le fond
+  </button>
 </div>
 
 @if (state().status === 'starting') {
@@ -9,11 +16,44 @@
 @if (failureMessage(); as message) {
   <p role="alert">{{ message }}</p>
 }
+@if (state().status === 'running') {
+  @let scan = scanState();
+  <p class="status" role="status">
+    @if (scan.calibration !== 'done') {
+      Videz le cadre puis touchez « Calibrer le fond ».
+    } @else if (scan.cardPresent) {
+      Carte détectée
+    } @else if (scan.cardIncomplete) {
+      Placez la carte entière dans le cadre
+    } @else {
+      Cadre vide
+    }
+  </p>
+  <p>Entrées : {{ scan.entries }} · Sorties : {{ scan.exits }}</p>
+}
 @if (stats(); as stats) {
-  <p class="stats">
-    Résolution : {{ stats.width }} × {{ stats.height }} · Images lues :
-    {{ stats.framesPerSecond ?? '…' }} /s
+  <p class="diagnostics">
+    {{ stats.width }} × {{ stats.height }} · {{ stats.framesPerSecond ?? '…' }} images/s
+    @if (scanState().observation; as observation) {
+      · occupation {{ (observation.occupancy * 100).toFixed(0) }} % · bloc le plus faible
+      {{ (observation.coverage * 100).toFixed(0) }} % · mouvement
+      {{ observation.motion.toFixed(1) }}
+    }
   </p>
 }
 
-<div #previewHost></div>
+<div class="viewport">
+  <div #previewHost></div>
+  @if (zoneStyle(); as zone) {
+    <div
+      class="zone"
+      aria-hidden="true"
+      [class.calibrated]="scanState().calibration === 'done'"
+      [class.present]="scanState().cardPresent"
+      [style.left]="zone.left"
+      [style.top]="zone.top"
+      [style.width]="zone.width"
+      [style.height]="zone.height"
+    ></div>
+  }
+</div>

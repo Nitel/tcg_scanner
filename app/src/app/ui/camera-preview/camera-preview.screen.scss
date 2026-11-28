@@ -4,10 +4,49 @@
 
 .actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
 }
 
 button {
   min-height: 3rem;
   padding: 0 1rem;
+}
+
+p {
+  margin: 0.5rem 0;
+}
+
+.status {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.diagnostics {
+  font-size: 0.875rem;
+}
+
+// Shrinks to the video size, so that the zone overlay lines up with it.
+.viewport {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+// Double outline: visible on light and dark backgrounds.
+.zone {
+  position: absolute;
+  box-sizing: border-box;
+  border: 3px dashed #ffb300;
+  outline: 2px solid #000;
+  pointer-events: none;
+
+  &.calibrated {
+    border-color: #fff;
+  }
+
+  &.present {
+    border: 6px solid #00c853;
+  }
 }
