@@ -8,6 +8,11 @@ import {
   viewChild,
 } from '@angular/core';
 import { CameraPreview, type PreviewState } from '../../application/camera-preview';
+import {
+  CardReading,
+  INITIAL_READING_STATE,
+  type ReadingState,
+} from '../../application/card-reading';
 import { CardScan, INITIAL_SCAN_STATE, type ScanState } from '../../application/card-scan';
 import {
   EvalCapture,
@@ -17,6 +22,7 @@ import {
 import type { CameraFailure } from '../../application/ports/camera.port';
 import { CAMERA_PORT } from '../camera.token';
 import { CARD_DETECTOR_PORT } from '../card-detector.token';
+import { OCR_PORT } from '../ocr.token';
 import { PHOTO_STORE_PORT } from '../photo-store.token';
 
 const FAILURE_MESSAGES: Record<CameraFailure, string> = {
@@ -44,10 +50,18 @@ export class CameraPreviewScreen implements OnDestroy {
     inject(PHOTO_STORE_PORT),
     (state) => this.captureState.set(state),
   );
+  protected readonly readingState = signal<ReadingState>(INITIAL_READING_STATE);
+  private readonly reading = new CardReading(
+    this.camera,
+    this.detector,
+    inject(OCR_PORT),
+    (state) => this.readingState.set(state),
+  );
   protected readonly scanState = signal<ScanState>(INITIAL_SCAN_STATE);
   private readonly scan = new CardScan(this.detector, (state) => {
     this.scanState.set(state);
     void this.capture.handleScan(state);
+    void this.reading.handleScan(state);
   });
   private readonly preview = new CameraPreview(
     this.camera,

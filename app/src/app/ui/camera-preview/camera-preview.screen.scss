@@ -29,6 +29,12 @@ p {
   font-weight: bold;
 }
 
+.number {
+  font-size: 2.5rem;
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
+}
+
 .diagnostics {
   font-size: 0.875rem;
 }
